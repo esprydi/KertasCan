@@ -1,0 +1,36 @@
+{% extends "ocr_app/base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card p-5 text-center">
+            <h2 class="mb-4">Upload Dokumen</h2>
+            <p class="text-muted mb-4">Pilih gambar dokumen kertas (JPG/PNG) untuk di-scan menjadi teks.</p>
+            
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <input class="form-control" type="file" name="image" id="image" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg w-100" id="submitBtn">
+                    🚀 Mulai Scan OCR
+                </button>
+            </form>
+            
+            <script>
+                document.querySelector('form').addEventListener('submit', function() {
+                    const btn = document.getElementById('submitBtn');
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sedang Memproses...';
+                });
+            </script>
+            
+            <div class="mt-4">
+                <a href="{% url 'results' %}" class="btn btn-outline-secondary btn-sm">
+                    Lihat Hasil Scan Sebelumnya
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

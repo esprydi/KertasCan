@@ -1,0 +1,40 @@
+{% extends "ocr_app/base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Hasil Ekstraksi OCR</h2>
+            <div>
+                <a href="{% url 'home' %}" class="btn btn-success me-2">➕ Tambah Dokumen</a>
+                <a href="{% url 'download_excel' %}" class="btn btn-primary">⬇️ Download Excel</a>
+            </div>
+        </div>
+
+        {% if scanned_texts %}
+            {% for text in scanned_texts %}
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Dokumen #{{ forloop.counter }}</span>
+                    <a href="{% url 'edit_result' forloop.counter0 %}" class="btn btn-sm btn-outline-primary">✏️ Edit Teks</a>
+                </div>
+                <div class="card-body">
+                    <pre style="white-space: pre-wrap; background: #f1f1f1; padding: 15px; border-radius: 5px;">{{ text }}</pre>
+                </div>
+            </div>
+            {% endfor %}
+            
+            <div class="mt-4 text-center">
+                <a href="{% url 'clear_session' %}" class="btn btn-danger btn-sm" onclick="return confirm('Hapus semua data?')">
+                    Reset & Hapus Semua
+                </a>
+            </div>
+        {% else %}
+            <div class="card p-5 text-center">
+                <p class="text-muted">Belum ada data yang di-scan.</p>
+                <a href="{% url 'home' %}" class="btn btn-primary">Upload Dokumen Pertama</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
